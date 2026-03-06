@@ -17,7 +17,7 @@ A Python CLI tool that ingests common log formats and extracts security-relevant
 - PAM authentication failures
 - HTTP 401 bursts (web brute-force)
 - Windows Event 4625 (failed logon), 4776 (NTLM credential validation)
-- **Brute-force flagging** — configurable threshold + time window
+- **Brute-force flagging** configurable threshold + time window
 
 ### Privilege Escalation
 - `sudo` command execution (with sensitivity rating for shells, passwd, iptables, etc.)
