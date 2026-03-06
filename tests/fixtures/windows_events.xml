@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Events>
+  <!-- Event 4625: Failed logon -->
+  <Event xmlns="http://schemas.microsoft.com/win/2004/08/events/event">
+    <System>
+      <Provider Name="Microsoft-Windows-Security-Auditing" Guid="{54849625-5478-4994-A5BA-3E3B0328C30D}"/>
+      <EventID>4625</EventID>
+      <Version>0</Version>
+      <Level>0</Level>
+      <Task>12544</Task>
+      <Opcode>0</Opcode>
+      <Keywords>0x8010000000000000</Keywords>
+      <TimeCreated SystemTime="2024-01-15T08:00:01.000000000Z"/>
+      <EventRecordID>1001</EventRecordID>
+      <Channel>Security</Channel>
+      <Computer>WORKSTATION01</Computer>
+    </System>
+    <EventData>
+      <Data Name="SubjectUserSid">S-1-0-0</Data>
+      <Data Name="SubjectUserName">-</Data>
+      <Data Name="TargetUserName">Administrator</Data>
+      <Data Name="TargetDomainName">CORP</Data>
+      <Data Name="Status">0xC000006D</Data>
+      <Data Name="SubStatus">0xC000006A</Data>
+      <Data Name="LogonType">3</Data>
+      <Data Name="LogonProcessName">NtLmSsp</Data>
+      <Data Name="AuthenticationPackageName">NTLM</Data>
+      <Data Name="WorkstationName">ATTACKHOST</Data>
+      <Data Name="IpAddress">192.168.1.200</Data>
+      <Data Name="IpPort">49876</Data>
+    </EventData>
+  </Event>
+
+  <!-- Event 4625: Another failed logon (same IP, brute-force) -->
+  <Event xmlns="http://schemas.microsoft.com/win/2004/08/events/event">
+    <System>
+      <Provider Name="Microsoft-Windows-Security-Auditing"/>
+      <EventID>4625</EventID>
+      <TimeCreated SystemTime="2024-01-15T08:00:02.000000000Z"/>
+      <EventRecordID>1002</EventRecordID>
+      <Channel>Security</Channel>
+      <Computer>WORKSTATION01</Computer>
+    </System>
+    <EventData>
+      <Data Name="TargetUserName">Administrator</Data>
+      <Data Name="Status">0xC000006D</Data>
+      <Data Name="SubStatus">0xC000006A</Data>
+      <Data Name="LogonType">3</Data>
+      <Data Name="IpAddress">192.168.1.200</Data>
+    </EventData>
+  </Event>
+
+  <!-- Event 4672: Special privileges assigned -->
+  <Event xmlns="http://schemas.microsoft.com/win/2004/08/events/event">
+    <System>
+      <Provider Name="Microsoft-Windows-Security-Auditing"/>
+      <EventID>4672</EventID>
+      <TimeCreated SystemTime="2024-01-15T08:05:00.000000000Z"/>
+      <EventRecordID>1003</EventRecordID>
+      <Channel>Security</Channel>
+      <Computer>WORKSTATION01</Computer>
+    </System>
+    <EventData>
+      <Data Name="SubjectUserName">backdoor_svc</Data>
+      <Data Name="SubjectDomainName">CORP</Data>
+      <Data Name="SubjectLogonId">0x3E7</Data>
+      <Data Name="PrivilegeList">SeDebugPrivilege&#10;SeImpersonatePrivilege&#10;SeTcbPrivilege</Data>
+    </EventData>
+  </Event>
+
+  <!-- Event 4720: User account created -->
+  <Event xmlns="http://schemas.microsoft.com/win/2004/08/events/event">
+    <System>
+      <Provider Name="Microsoft-Windows-Security-Auditing"/>
+      <EventID>4720</EventID>
+      <TimeCreated SystemTime="2024-01-15T08:10:00.000000000Z"/>
+      <EventRecordID>1004</EventRecordID>
+      <Channel>Security</Channel>
+      <Computer>DC01</Computer>
+    </System>
+    <EventData>
+      <Data Name="TargetUserName">hacker_acct</Data>
+      <Data Name="TargetDomainName">CORP</Data>
+      <Data Name="SubjectUserName">Administrator</Data>
+      <Data Name="SubjectDomainName">CORP</Data>
+    </EventData>
+  </Event>
+
+  <!-- Event 4732: Member added to local group -->
+  <Event xmlns="http://schemas.microsoft.com/win/2004/08/events/event">
+    <System>
+      <Provider Name="Microsoft-Windows-Security-Auditing"/>
+      <EventID>4732</EventID>
+      <TimeCreated SystemTime="2024-01-15T08:11:00.000000000Z"/>
+      <EventRecordID>1005</EventRecordID>
+      <Channel>Security</Channel>
+      <Computer>DC01</Computer>
+    </System>
+    <EventData>
+      <Data Name="MemberName">CN=hacker_acct,CN=Users,DC=corp,DC=local</Data>
+      <Data Name="TargetUserName">Administrators</Data>
+      <Data Name="SubjectUserName">Administrator</Data>
+    </EventData>
+  </Event>
+
+  <!-- Event 7045: New service installed -->
+  <Event xmlns="http://schemas.microsoft.com/win/2004/08/events/event">
+    <System>
+      <Provider Name="Service Control Manager" Guid="{555908D1-A6D7-4695-8E1E-26931D2012F4}"/>
+      <EventID>7045</EventID>
+      <TimeCreated SystemTime="2024-01-15T08:15:00.000000000Z"/>
+      <EventRecordID>1006</EventRecordID>
+      <Channel>System</Channel>
+      <Computer>WORKSTATION01</Computer>
+    </System>
+    <EventData>
+      <Data Name="ServiceName">EvilPersistSvc</Data>
+      <Data Name="ImagePath">C:\Users\Public\evil.exe -service</Data>
+      <Data Name="ServiceType">user mode service</Data>
+      <Data Name="StartType">auto start</Data>
+      <Data Name="AccountName">LocalSystem</Data>
+    </EventData>
+  </Event>
+
+  <!-- Event 1102: Audit log cleared -->
+  <Event xmlns="http://schemas.microsoft.com/win/2004/08/events/event">
+    <System>
+      <Provider Name="Microsoft-Windows-Eventlog"/>
+      <EventID>1102</EventID>
+      <TimeCreated SystemTime="2024-01-15T08:20:00.000000000Z"/>
+      <EventRecordID>1007</EventRecordID>
+      <Channel>Security</Channel>
+      <Computer>WORKSTATION01</Computer>
+    </System>
+    <EventData>
+      <Data Name="SubjectUserName">attacker</Data>
+      <Data Name="SubjectDomainName">CORP</Data>
+      <Data Name="SubjectLogonId">0x1234</Data>
+    </EventData>
+  </Event>
+
+  <!-- Event 4698: Scheduled task created -->
+  <Event xmlns="http://schemas.microsoft.com/win/2004/08/events/event">
+    <System>
+      <Provider Name="Microsoft-Windows-Security-Auditing"/>
+      <EventID>4698</EventID>
+      <TimeCreated SystemTime="2024-01-15T08:25:00.000000000Z"/>
+      <EventRecordID>1008</EventRecordID>
+      <Channel>Security</Channel>
+      <Computer>WORKSTATION01</Computer>
+    </System>
+    <EventData>
+      <Data Name="SubjectUserName">attacker</Data>
+      <Data Name="TaskName">\Microsoft\Windows\PersistenceTask</Data>
+      <Data Name="TaskContent">&lt;Task&gt;&lt;Actions&gt;&lt;Exec&gt;&lt;Command&gt;C:\evil.exe&lt;/Command&gt;&lt;/Exec&gt;&lt;/Actions&gt;&lt;/Task&gt;</Data>
+    </EventData>
+  </Event>
+</Events>
